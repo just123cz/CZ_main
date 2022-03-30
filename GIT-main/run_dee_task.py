@@ -41,8 +41,58 @@ def parse_args(in_args=None):
 
 
 if __name__ == '__main__':
-    in_argv = parse_args()
-
+    # in_argv = parse_args()
+    in_argv = argparse.Namespace(add_greedy_dec=True,
+                                 bert_model='bert-base-chinese',
+                                 test_file_name='./Data/sample_test_1.json',
+                                 train_file_name='./Data/sample_train_1.json',
+                                 dev_file_name='./Data/sample_dev_1.json',
+                                 # task_name='wzh_ccks_9+4_210219',
+                                 task_name='CZ_330',
+                                 train_batch_size=8,
+                                 data_dir='./Data',
+                                 dropout=0.25,
+                                 eval_batch_size=1,
+                                 eval_model_names='GIT',
+                                 exp_dir='./Exps',
+                                 ff_size=512,
+                                 fp16=False,
+                                 gradient_accumulation_steps=8,
+                                 hidden_size=384,
+                                 learning_rate=0.0001,
+                                 local_rank=-1,
+                                 loss_gamma=1.0,
+                                 loss_lambda=0.05,
+                                 max_sent_len=128,
+                                 max_sent_num=64,
+                                 min_teacher_prob=0.1,
+                                 model_type='GIT',
+                                 neg_field_loss_scaling=3.0,
+                                 no_cuda=False,
+                                 num_tf_layers=4,
+                                 num_train_epochs=11,
+                                 only_master_logging=True,
+                                 optimize_on_cpu=False,
+                                 re_eval_flag=False,
+                                 rearrange_sent=False,
+                                 resume_latest_cpt=True,
+                                 save_cpt_flag=True,
+                                 schedule_epoch_length=10,
+                                 schedule_epoch_start=10,
+                                 seed=99,
+                                 seq_reduce_type='MaxPooling',
+                                 skip_train=False,
+                                 summary_dir_name='/tmp/Summary',
+                                 cpt_file_name='GIT',
+                                 use_bert=False,
+                                 use_crf_layer=True,
+                                 use_doc_enc=True,
+                                 use_path_mem=True,
+                                 use_scheduled_sampling=True,
+                                 use_token_role=True,
+                                 gcn_layer=3,  # prefer FNs over FPs
+                                 ner_num_tf_layers=8,
+                                 )
     task_dir = os.path.join(in_argv.exp_dir, in_argv.task_name)
     if not os.path.exists(task_dir):
         os.makedirs(task_dir, exist_ok=True)
