@@ -44,9 +44,9 @@ if __name__ == '__main__':
     # in_argv = parse_args()
     in_argv = argparse.Namespace(add_greedy_dec=True,
                                  bert_model='bert-base-chinese',
-                                 test_file_name='./Data/sample_test_1.json',
-                                 train_file_name='./Data/sample_train_1.json',
-                                 dev_file_name='./Data/sample_dev_1.json',
+                                 test_file_name='sample_test_1.json',
+                                 train_file_name='sample_train_1.json',
+                                 dev_file_name='sample_dev_1.json',
                                  # task_name='wzh_ccks_9+4_210219',
                                  task_name='CZ_330',
                                  train_batch_size=8,
