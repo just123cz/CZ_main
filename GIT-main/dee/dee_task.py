@@ -94,6 +94,7 @@ class DEETask(BasePytorchTask):
         # LOAD DATA
         # self.example_loader_func: raw data -> example
         # self.feature_converter_func: example -> feature
+        # 3.30 导入数据
         self._load_data(
             self.example_loader_func, self.feature_converter_func, convert_dee_features_to_dataset,
             load_train=load_train, load_dev=load_dev, load_test=load_test,
