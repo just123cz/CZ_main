@@ -80,11 +80,13 @@ class DEETask(BasePytorchTask):
 
         # get entity and event label name
         self.entity_label_list = DEEExample.get_entity_label_list()
+        # entity_label_list = ['O', 'B-StockCode', 'I-StockCode', 'B-StockAbbr', 'I-StockAbbr', 'B-CompanyName', 'I-CompanyName', 'B-EquityHolder...............]
         self.event_type_fields_pairs = DEEExample.get_event_type_fields_pairs() # event -> list of entity types
+        # event_type_fields_pairs = ('EquityFreeze', ['EquityHolder', 'FrozeShares', 'LegalInstitution', 'TotalHoldingShares', 'TotalHoldingRatio', 'StartDate', 'EndDate', 'UnfrozeDate']).........]
         # build example loader
         self.example_loader_func = DEEExampleLoader(self.setting.rearrange_sent, self.setting.max_sent_len)
 
-        # build feature converter
+        # build feature converter 特征转换器
         self.feature_converter_func = DEEFeatureConverter(
             self.entity_label_list, self.event_type_fields_pairs,
             self.setting.max_sent_len, self.setting.max_sent_num, self.tokenizer,
@@ -95,6 +97,7 @@ class DEETask(BasePytorchTask):
         # self.example_loader_func: raw data -> example
         # self.feature_converter_func: example -> feature
         # 3.30 导入数据
+        # print(convert_dee_features_to_dataset)
         self._load_data(
             self.example_loader_func, self.feature_converter_func, convert_dee_features_to_dataset,
             load_train=load_train, load_dev=load_dev, load_test=load_test,

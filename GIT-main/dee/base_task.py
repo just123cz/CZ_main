@@ -248,6 +248,7 @@ class BasePytorchTask(object):
 
     def load_example_feature_dataset(self, load_example_func, convert_to_feature_func, convert_to_dataset_func,
                                      file_name=None, file_path=None):
+        # dee_task的参数：self.example_loader_func, self.feature_converter_func, convert_dee_features_to_dataset传到这里
         if file_name is None and file_path is None:
             raise Exception('Either file name or file path should be provided')
 
@@ -257,7 +258,9 @@ class BasePytorchTask(object):
         if os.path.exists(file_path):
             self.logging('Load example feature dataset from {}'.format(file_path))
             examples = load_example_func(file_path)
+            # 调用dee_helper中的DEEExample的实例，得到的examples是文档的各个部分信息， sentences, ann_valid_mspans, ann_valid_dranges,..........................
             features = convert_to_feature_func(examples)
+            #
             dataset = convert_to_dataset_func(features)
         else:
             self.logging('Warning: file does not exists, {}'.format(file_path))
@@ -269,6 +272,8 @@ class BasePytorchTask(object):
 
     def _load_data(self, load_example_func, convert_to_feature_func, convert_to_dataset_func,
                    load_train=True, load_dev=True, load_test=True):
+        # self.example_loader_func, self.feature_converter_func, convert_dee_features_to_dataset
+        # 三个变量传到这里，事件类型的相关信息
         self.logging('='*20 + 'Load Task Data' + '='*20)
         # prepare data
         if load_train:

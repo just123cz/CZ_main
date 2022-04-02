@@ -119,7 +119,7 @@ class DEEExample(object):
     def get_entity_label_list():
         visit_set = set()
         entity_label_list = [NERExample.basic_entity_label]
-
+        print(common_fields)
         for field in common_fields:
             if field not in visit_set:
                 visit_set.add(field)
@@ -233,6 +233,7 @@ class DEEExampleLoader(object):
         return detail_align_info
 
     def convert_dict_to_example(self, annguid, detail_align_info, only_inference=False):
+        # 得到一个标注数据的各部分内容： sentences, ann_valid_mspans, ann_valid_dranges,..........................
         if self.rearrange_sent_flag:
             detail_align_info = self.rearrange_sent_info(detail_align_info)
         dee_example = DEEExample(annguid, detail_align_info, only_inference=only_inference)
@@ -240,12 +241,10 @@ class DEEExampleLoader(object):
         return dee_example
 
     def __call__(self, dataset_json_path):
+        # call方法可以调用类的实例
         total_dee_examples = []
         annguid_aligninfo_list = default_load_json(dataset_json_path)
         for annguid, detail_align_info in annguid_aligninfo_list:
-            # if self.rearrange_sent_flag:
-            #     detail_align_info = self.rearrange_sent_info(detail_align_info)
-            # dee_example = DEEExample(annguid, detail_align_info)
             dee_example = self.convert_dict_to_example(annguid, detail_align_info)
             total_dee_examples.append(dee_example)
 
@@ -466,11 +465,17 @@ class DEEFeatureConverter(object):
             self.event_type_list.append(event_type)
             self.event_fields_list.append(event_fields)
 
+        print(self.ner_fea_converter)
+        print(self.entity_label2index)
+        print(self.event_type2index)
+        print(self.event_type_list)
+        print(self.event_fields_list)
+
     def convert_example_to_feature(self, ex_idx, dee_example, log_flag=False):
         annguid = dee_example.guid
         assert isinstance(dee_example, DEEExample)
         
-        # 1. prepare doc token-level feature
+        # 1. prepare doc token-level feature 准备tokenjib
 
         # Size(num_sent_num, num_sent_len)
         doc_token_id_mat = []  # [[token_idx, ...], ...]
@@ -620,6 +625,7 @@ class DEEFeatureConverter(object):
 def convert_dee_features_to_dataset(dee_features):
     # just view a list of doc_fea as the dataset, that only requires __len__, __getitem__
     assert len(dee_features) > 0 and isinstance(dee_features[0], DEEFeature)
+    print(dee_features)
 
     return dee_features
 
